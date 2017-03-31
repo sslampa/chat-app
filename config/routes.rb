@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'users/:id' => "users#show"
   post 'messages/create'
+  mount ActionCable.server => '/cable'
 end
