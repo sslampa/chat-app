@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    @messages = Message.all
   end
 
 end

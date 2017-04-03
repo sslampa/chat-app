@@ -17,3 +17,8 @@ $(document).on 'keypress', '[data-behavior~=room_speaker]', (event) ->
     App.room.speak event.target.value
     event.target.value = ''
     event.preventDefault()
+
+$(document).on 'click', '[data-behavior~=room_speaker]', (event) ->
+  App.room.speak event.target.value
+  event.target.value = ''
+  event.preventDefault()
