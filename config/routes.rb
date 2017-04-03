@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   devise_for :users
   root 'home#index'
-  get 'users/:id' => "users#show"
-  post 'messages/create'
+  get '/users/:id' => "users#show"
+  get '/messages' => 'messages#show'
+  post '/messages/create' => 'messages#create'
   mount ActionCable.server => '/cable'
 end

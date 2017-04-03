@@ -2,6 +2,10 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
   before_action :display_messages
 
+  def show
+    @messages = Message.all
+  end
+
   def create
     message = current_user.messages.build(message_params)
     if message.save
