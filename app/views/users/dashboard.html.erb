@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="online-reps">
+        <h3>Representatives Online</h3>
+        <div>
+          <p>Shelly</p>
+        </div>
+      </div>
+      <hr>
+      <div class="online-user">
+        <h3>Users Online</h3>
+        <div>
+          <p>Daniel</p>
+          <p>Jenn</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div id="messages" class="messages">
+        <div id="messages-table" class="messages-table">
+          <%# if @messages.any? %>
+            <%#= render @messages %>
+          <%# end %>
+          <p>Mesage for now<p>
+          <p>Another message</p>
+        </div>
+      </div>
+      <div class="message-input">
+        <%= form_for :message do |f| %>
+          <%= f.text_area :content %>
+          <%= f.submit "Send" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
