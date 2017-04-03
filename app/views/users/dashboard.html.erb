@@ -19,18 +19,14 @@
     <div class="col-md-8">
       <div id="messages" class="messages">
         <div id="messages-table" class="messages-table">
-          <%# if @messages.any? %>
-            <%#= render @messages %>
-          <%# end %>
-          <p>Mesage for now<p>
-          <p>Another message</p>
+          <div class="message-content">
+            <%= render @messages %>
+          </div>
         </div>
       </div>
       <div class="message-input">
-        <%= form_for :message do |f| %>
-          <%= f.text_area :content %>
-          <%= f.submit "Send" %>
-        <% end %>
+          <textarea data-behavior="room_speaker"></textarea>
+          <input type="button" value="Submit">
       </div>
     </div>
   </div>
