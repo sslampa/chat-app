@@ -8,10 +8,10 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    Message.create! content: data['message']
+    Message.create! content: data['message'], origin: data['user']['room']
   end
 
   def start(data)
-    ActionCable.server.broadcast 'room_channel', user: data['user']
+    ActionCable.server.broadcast 'room_channel', user: data['user'], name: User.find(data['user']).email
   end
 end
