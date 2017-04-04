@@ -34,17 +34,20 @@
       </div>
     </nav>
     <%= yield %>
-    <div id="message-area">
-      <div class="message-heading">
-        <h3>Customer Support <span class="pull-right">_</span>
-        </h3>
-      </div>
-      <div id="messages">
-        <div class="message-content">
-          <%= render @messages %>
+    <% if !current_page?(users_dashboard_path) && signed_in? %>
+      <div id="message-area">
+        <div class="message-heading">
+          <h3>Customer Support <span class="pull-right">_</span>
+          </h3>
         </div>
-        <input type="text" data-behavior="room_speaker">
+        <div id="messages">
+          <div class="message-content" data-room="<%= current_user.id %>">
+            <div class="start-connect">Start this!</div>
+            <%= render 'layouts/message', locals: {message: @messages} %>
+          </div>
+          <input type="text" data-behavior="room_speaker">
+        </div>
       </div>
-    </div>
+    <% end %>
   </body>
 </html>
