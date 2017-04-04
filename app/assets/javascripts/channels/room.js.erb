@@ -1,0 +1,45 @@
+App.room = App.cable.subscriptions.create("RoomChannel", {
+  connected: function() {
+    //Called when the subscription is ready for use on the server
+  },
+  disconnected: function() {
+    //Called when the subscription has been terminated by the server
+  },
+  received: function(data) {
+    //Called when there's incoming data on the websocket for this channel
+    if (data['message']) {
+      $('.message-content').append(data['message']);
+    } else if (data['user']) {
+      $('.online-user').append('<p>' + data['user'] + '</p>');
+    }
+  },
+  speak: function(message) {
+    this.perform('speak', {message: message});
+  },
+  start: function(user) {
+    this.perform('start', {user: user});
+  }
+});
+
+$(document).on("turbolinks:load", function() {
+  $(document).on('keypress', '[data-behavior~=room_speaker]', function(event) {
+    if (event.keyCode === 13) {
+      App.room.speak(event.target.value);
+      event.target.value = '';
+      event.preventDefault();
+    }
+  });
+
+  $(document).on('click', '[data-behavior~=room_speaker]', function(event) {
+    App.room.speak(event.target.value);
+    event.target.value = '';
+    event.preventDefault();
+  });
+
+  $(".start-connect").on('click', function(event) {
+    var user = $(".start-connect").parent().data();
+    $(".start-connect").hide();
+    $(".message").show();
+    App.room.start(user.room);
+  });
+});

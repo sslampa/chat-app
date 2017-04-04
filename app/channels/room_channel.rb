@@ -10,4 +10,8 @@ class RoomChannel < ApplicationCable::Channel
   def speak(data)
     Message.create! content: data['message']
   end
+
+  def start(data)
+    ActionCable.server.broadcast 'room_channel', user: data['user']
+  end
 end
