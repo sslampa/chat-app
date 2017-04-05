@@ -8,13 +8,18 @@ App.room = App.cable.subscriptions.create("RoomChannel", {
   received: function(data) {
     //Called when there's incoming data on the websocket for this channel
     if (data['message']) {
-      $('.message-content').append(data['message']);
-    } else if (data['user']) {
-      $('.online-user').append('<p>' + data['user'] + '</p>');
+      $('[data-room="' + data['user'] + '"]').append(data['message']);
+    } else if (data['name']) {
+      var values = $(".glyphicon-ok").map(function() {
+        return $(this).data("info");
+      }).get();
+      if (!values.includes(data['user'])) {
+        $('.online-user').append(data['name']);
+      }
     }
   },
-  speak: function(message) {
-    this.perform('speak', {message: message});
+  speak: function(message, user) {
+    this.perform('speak', {message: message, user: user});
   },
   start: function(user) {
     this.perform('start', {user: user});
@@ -24,7 +29,8 @@ App.room = App.cable.subscriptions.create("RoomChannel", {
 $(document).on("turbolinks:load", function() {
   $(document).on('keypress', '[data-behavior~=room_speaker]', function(event) {
     if (event.keyCode === 13) {
-      App.room.speak(event.target.value);
+      var user = $(".start-connect + .message").data();
+      App.room.speak(event.target.value, user);
       event.target.value = '';
       event.preventDefault();
     }
@@ -37,9 +43,16 @@ $(document).on("turbolinks:load", function() {
   });
 
   $(".start-connect").on('click', function(event) {
-    var user = $(".start-connect").parent().data();
+    var user = $(".start-connect + .message").data();
     $(".start-connect").hide();
     $(".message").show();
     App.room.start(user.room);
   });
+
+  $(document).on('click', ".glyphicon-ok", function() {
+    var data = $(this).data("info");
+    $(".message-content").data("room", data);
+    var next = $(".message-content").attr("data-room", data);
+  });
+
 });

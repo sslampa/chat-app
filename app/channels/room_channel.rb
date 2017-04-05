@@ -8,10 +8,16 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    Message.create! content: data['message']
+    Message.create! content: data['message'], origin: data['user']['room']
   end
 
   def start(data)
-    ActionCable.server.broadcast 'room_channel', user: data['user']
+    ActionCable.server.broadcast 'room_channel', name: render_message(data['user'], User.find(data['user']).email), user: data['user']
   end
+
+  private
+
+    def render_message(user, email)
+      ApplicationController.renderer.render(partial: 'users/add_user', locals: {user: user, email: email})
+    end
 end

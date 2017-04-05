@@ -1,4 +1,4 @@
-<div class="message" hidden>
+<div class="message" data-room="<%= current_user.id %>" hidden>
   <% @messages.each do |x| %>
     <p><%= x.content %></p>
   <% end %>
