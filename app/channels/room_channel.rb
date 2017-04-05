@@ -12,7 +12,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def start(data)
-    ActionCable.server.broadcast 'room_channel', name: render_message(data['user'], User.find(data['user']).email)
+    ActionCable.server.broadcast 'room_channel', name: render_message(data['user'], User.find(data['user']).email), user: data['user']
   end
 
   private

@@ -10,11 +10,15 @@ App.room = App.cable.subscriptions.create("RoomChannel", {
     if (data['message']) {
       $('[data-room="' + data['user'] + '"]').append(data['message']);
     } else if (data['name']) {
-      $('.online-user').append('<p data-user="' + data['user'] + '">' + data['name'] + '</p>');
+      var values = $(".glyphicon-ok").map(function() {
+        return $(this).data("info");
+      }).get();
+      if (!values.includes(data['user'])) {
+        $('.online-user').append(data['name']);
+      }
     }
   },
   speak: function(message, user) {
-    // $('.message-content').data("info", user);
     this.perform('speak', {message: message, user: user});
   },
   start: function(user) {
